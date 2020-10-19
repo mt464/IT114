@@ -1,0 +1,4 @@
+level 2
+strikes 2
+life 3
+number 9

@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class NumberGuesserPart4 {
 	private int level = 1;
+   private int life = 3;
 	private int strikes = 0;
 	private int maxStrikes = 5;
 	private int number = 0;
@@ -38,10 +39,18 @@ public class NumberGuesserPart4 {
 		System.out.println("Uh oh, looks like you need to get some more practice.");
 		System.out.println("The correct number was " + number);
 		strikes = 0;
-		level--;
 		if (level < 1) {
 			level = 1;
 		}
+      life--;
+      if (life < 1) {
+			System.out.println("You lose, return to level 1");
+         level = 1;
+         life = 3;
+		}else{
+         System.out.println("You have " + life + " lives remaining");
+         level--;
+      }
 		saveLevel();
 		number = getNumber(level);
 	}
@@ -90,11 +99,14 @@ public class NumberGuesserPart4 {
 
 	private void saveLevel() {
 		try (FileWriter fw = new FileWriter(saveFile)) {
-			fw.write("" + level);// here we need to convert it to a String to record correctly
+			fw.write("level " + level +"\n");// here we need to convert it to a String to record correctly
+         fw.write("strikes " + strikes +"\n");
+         fw.write("life " + life +"\n");
+         fw.write("number " + number +"\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}   
 	}
 
 	private boolean loadLevel() {
@@ -109,6 +121,7 @@ public class NumberGuesserPart4 {
 					level = _level;
 					break;
 				}
+            System.out.println(reader.nextLine());
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
